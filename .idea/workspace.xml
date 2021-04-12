@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b597b14a-4cb1-41a5-873e-dc904fc87a8f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/finetune_mb_HRVS_sp16.py" beforeDir="false" afterPath="$PROJECT_DIR$/finetune_mb_HRVS_sp16.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/finetune_mb_sp16.py" beforeDir="false" afterPath="$PROJECT_DIR$/finetune_mb_sp16.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infer_HRVS_sp16.py" beforeDir="false" afterPath="$PROJECT_DIR$/infer_HRVS_sp16.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_new.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_new_fixed.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_new_fixed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/SPP_stackhourglass_preTrain_upDisp_192_oldNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/SPP_stackhourglass_preTrain_upDisp_192_oldNet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/submission_mb.py" beforeDir="false" afterPath="$PROJECT_DIR$/submission_mb.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1PzCUCL6h0s9MpMHIEjTpVUm63a" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Dropbox/stereo_matching/CVPR20_cleanUp" />
+    <property name="settings.editor.selected.configurable" value="PyConsoleConfigurable.Python Console" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings module-name="PSMNet-master" is-module-sdk="true">
+        <envs>
+          <env key="LD_LIBRARY_PATH" value="${LD_LIBRARY_PATH}:/usr/local/cuda-9.0/lib64" />
+          <env key="PATH" value="$PATH:/usr/local/cuda-9.0/bin" />
+        </envs>
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="PSMNet-master" />
+        <option name="myEnvs">
+          <map>
+            <entry key="LD_LIBRARY_PATH" value="${LD_LIBRARY_PATH}:/usr/local/cuda-9.0/lib64" />
+            <entry key="PATH" value="$PATH:/usr/local/cuda-9.0/bin" />
+          </map>
+        </option>
+      </console-settings>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dataloader" />
+      <recent name="$PROJECT_DIR$/models" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/models" />
+      <recent name="$PROJECT_DIR$/dataloader" />
+      <recent name="$PROJECT_DIR$/utils" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.compare_res_2">
+    <configuration name="SPP_stackhourglass_preTrain_upDisp" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="PSMNet-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/local/bin/python3.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/models" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/models/SPP_stackhourglass_preTrain_upDisp.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="compare_res" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="PSMNet-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/local/bin/python3.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../middlebury/res" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../middlebury/res/compare_res.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="compare_res_2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="PSMNet-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/local/bin/python3.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../middlebury/res" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../middlebury/res/compare_res_2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="debug" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="PSMNet-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/local/bin/python3.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/debug.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="viz_res" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="PSMNet-master" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/local/bin/python3.7" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../middlebury/res" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../middlebury/res/viz_res.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.compare_res_2" />
+        <item itemvalue="Python.compare_res" />
+        <item itemvalue="Python.debug" />
+        <item itemvalue="Python.SPP_stackhourglass_preTrain_upDisp" />
+        <item itemvalue="Python.viz_res" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b597b14a-4cb1-41a5-873e-dc904fc87a8f" name="Default Changelist" comment="" />
+      <created>1566867551527</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1566867551527</updated>
+      <workItem from="1566867556036" duration="380000" />
+      <workItem from="1567444832025" duration="596000" />
+      <workItem from="1567710062471" duration="791000" />
+      <workItem from="1567791276315" duration="8088000" />
+      <workItem from="1567804666023" duration="4421000" />
+      <workItem from="1567868060021" duration="37704000" />
+      <workItem from="1568169644860" duration="1903000" />
+      <workItem from="1568176926658" duration="20131000" />
+      <workItem from="1568256758874" duration="475000" />
+      <workItem from="1568334701311" duration="5861000" />
+      <workItem from="1568346853193" duration="4206000" />
+      <workItem from="1568404464992" duration="819000" />
+      <workItem from="1568409328098" duration="713000" />
+      <workItem from="1569124215954" duration="9466000" />
+      <workItem from="1569370307388" duration="3333000" />
+      <workItem from="1569387076696" duration="5586000" />
+      <workItem from="1569455669499" duration="7185000" />
+      <workItem from="1569506997555" duration="1928000" />
+      <workItem from="1569527238149" duration="20359000" />
+      <workItem from="1569643038334" duration="9295000" />
+      <workItem from="1569955259428" duration="2849000" />
+      <workItem from="1570201165197" duration="714000" />
+      <workItem from="1570426596496" duration="2373000" />
+      <workItem from="1570560113005" duration="824000" />
+      <workItem from="1570649911282" duration="14871000" />
+      <workItem from="1570934781229" duration="7725000" />
+      <workItem from="1570947361918" duration="31452000" />
+      <workItem from="1571407751882" duration="6876000" />
+      <workItem from="1572392836543" duration="955000" />
+      <workItem from="1572797799338" duration="144408000" />
+      <workItem from="1573606797520" duration="7686000" />
+      <workItem from="1573630736642" duration="840000" />
+      <workItem from="1573685237568" duration="3468000" />
+      <workItem from="1573786719481" duration="11023000" />
+      <workItem from="1574020691384" duration="188000" />
+      <workItem from="1574635422735" duration="900000" />
+      <workItem from="1574669117217" duration="3000" />
+      <workItem from="1575514958589" duration="36000" />
+      <workItem from="1575684150399" duration="28000" />
+      <workItem from="1579206995077" duration="8262000" />
+      <workItem from="1579712460590" duration="1476000" />
+      <workItem from="1579806477367" duration="9788000" />
+      <workItem from="1580576638429" duration="745000" />
+      <workItem from="1581607030480" duration="452000" />
+      <workItem from="1582217763594" duration="598000" />
+      <workItem from="1582498690378" duration="2500000" />
+      <workItem from="1584298892684" duration="2060000" />
+      <workItem from="1584330357884" duration="9000" />
+      <workItem from="1584389708451" duration="2476000" />
+      <workItem from="1584585456343" duration="4501000" />
+      <workItem from="1588975308977" duration="56000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/infer_HRVS_sp16.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/infer_HRVS_sp16.py</url>
+          <line>34</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/../../middlebury/res/compare_res_2.py</url>
+          <line>99</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/SPPSMNet_module$viz_res.coverage" NAME="viz_res Coverage Results" MODIFIED="1573182861741" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../middlebury/res" />
+    <SUITE FILE_PATH="coverage/SPPSMNet_module$SPP_stackhourglass_preTrain_upDisp.coverage" NAME="SPP_stackhourglass_preTrain_upDisp Coverage Results" MODIFIED="1573224280618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/models" />
+    <SUITE FILE_PATH="coverage/PSMNet_master$main.coverage" NAME="main Coverage Results" MODIFIED="1567807705452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SPPSMNet$main.coverage" NAME="main Coverage Results" MODIFIED="1568259727584" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SPPSMNet_independ$main.coverage" NAME="main Coverage Results" MODIFIED="1568385234616" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SPPSMNet$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1568258490983" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/models" />
+    <SUITE FILE_PATH="coverage/SPPSMNet_module$debug.coverage" NAME="debug Coverage Results" MODIFIED="1573430480286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/CVPR20_cleanUp$compare_res_2.coverage" NAME="compare_res_2 Coverage Results" MODIFIED="1584325093401" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../middlebury/res" />
+    <SUITE FILE_PATH="coverage/SPPSMNet_module$compare_res.coverage" NAME="compare_res Coverage Results" MODIFIED="1573397648164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../../middlebury/res" />
+  </component>
+</project>
