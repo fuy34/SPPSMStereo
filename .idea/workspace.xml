@@ -3,23 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b597b14a-4cb1-41a5-873e-dc904fc87a8f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloader/listfiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/listfiles.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/Readme.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/finetune_mb_HRVS_sp16.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/finetune_mb_HRVS_sp16_fixed.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/finetune_mb_sp16.py" beforeDir="false" afterPath="$PROJECT_DIR$/finetune_mb_sp16.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infer_HRVS_sp16.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/infer_HRVS_sp16_lrs02.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/infer_flyingThings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/infer_flyingThings_lrs02.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_new.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_new_fixed.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preTrain_spixel_old/4.pth.tar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/preTrain_spixel_old/smallNet_16.tar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/submission_mb.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/submission_mb_lrs02.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

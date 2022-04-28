@@ -1,4 +1,4 @@
-#SPPSMNet: Spixel Pyramid Stereo Matching Network
+# SPPSMNet: Spixel Pyramid Stereo Matching Network
 
 This is a PyTorch implementation of the SPPSMNet proposed in our CVPR-20 paper:
 
@@ -10,7 +10,9 @@ The code for the superpixel segmentation method (SpixelFCN) is available in [thi
 Please contact Fengting Yang (fuy34bkup@gmail.com) if you have any questions.
 
 ## Prerequisites
-The training code was mainly developed and tested with python 2.7, PyTorch 0.4.1, CUDA 9, and Ubuntu 16.04.
+The training code was mainly developed and tested with Python 2.7, PyTorch 0.4.1, CUDA 9, and Ubuntu 16.04.
+
+We also made a test with Python 3.6, Pytorch 1.6, and CUDA 10.2. The result drops slightly, but it is still close to what we reported on the paper.
 
 Prior to running this code, we need a pre-trained SpixelFCN model to initialize the SpixelFCN part. Two pre-trained model with
 grid size 4 and 16 have been provided in ```preTrain_spixel_model``` folder. Please refer to [SpixelFCN](https://github.com/fuy34/superpixel_fcn) 
