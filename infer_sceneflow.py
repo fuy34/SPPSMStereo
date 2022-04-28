@@ -115,7 +115,7 @@ def test(imgL,imgR):
             outputs = model(imgL,imgR)
         output = torch.squeeze(outputs[0])
         pred_disp = output.data.cpu().numpy()
-        # maskL, maskR = outputs[1][0], outputs[2][0]
+
         maskL = outputs[1][0]
         return pred_disp, maskL, None, outputs[3] #, outputs[4]
 
@@ -123,15 +123,8 @@ def test(imgL,imgR):
 def main():
     processed = preprocess.get_transform(augment=False)
     EPE = 0
-    # num_test = min(len(test_left_img), args.num_test)
     avg_time = 0
     cnt = 0
-    # f = open(os.path.join(args.savepath, 'res_192.txt'), "w+")
-    # print(test_left_img[0])
-
-    # print('/home/fuy34/stereo_data/sceneflow//FlyingThings3D/frames_cleanpass//TEST/A/0083/left/0007.png' in test_left_img)
-    # print('/home/fuy34/stereo_data/sceneflow//FlyingThings3D/frames_cleanpass//TEST/A/0145/left/0007.png' in test_left_img)
-    # exit(1)
 
     for inx in range(0, len(test_left_img), 40):
 
@@ -140,14 +133,7 @@ def main():
        imgL_o = Image.open(test_left_img[inx]).convert('RGB')
        imgR_o = Image.open(test_right_img[inx]).convert('RGB')
 
-        # print("{}\t\n{}\t\n{}".format(test_left_img[inx],test_right_img[inx],test_left_disp[inx]))
        tgt_disp , scale = readpfm.readPFM(test_left_disp[inx])
-
-       #skip the img have large disp
-       # if np.max(tgt_disp) > 192:
-       #     f.write("{}:\t skip for large disparity\t\n ".format(img_name))
-       #     print("[{}/{}] skip for large disparity".format(inx, len(test_left_img)))
-       #     continue
 
        cnt += 1
        mask =  np.logical_and(tgt_disp > 0, tgt_disp < 192)
@@ -156,14 +142,9 @@ def main():
                                     test_left_img[inx].split('/')[-3],
                                     test_left_img[inx].split('/')[-1])
 
-       # print(img_name)
-       # if name == '/home/fuy34/stereo_data/sceneflow//FlyingThings3D/frames_cleanpass//TEST/A/0083/left/0007.png':
-       #     print(img_name)
-       #     print(img_name in ['A_0047_0007.png', 'A_0081_0007.png', 'A_0083_0007.png'
-       #                     'A_0145_0007.png', 'C_0022_0007.png'])
-
-       if img_name not in ['A_0047_0007.png', 'A_0081_0007.png', 'A_0083_0007.png',
-                           'A_0145_0007.png', 'C_0022_0007.png']: continue
+        # viz image
+       # if img_name not in ['A_0047_0007.png', 'A_0081_0007.png', 'A_0083_0007.png',
+       #                     'A_0145_0007.png', 'C_0022_0007.png']: continue
 
 
        imgL = processed(imgL_o).numpy()
@@ -182,19 +163,15 @@ def main():
        pred_disp,  maskL, _ , spixel_indx = test(imgL,imgR)
        cost_time = time.time() - start_time
        avg_time += cost_time
-       # print('time = %.2f' %(time.time() - start_time))
-       # print (pred_disp.shape)
 
 
        top_pad   = args.input_img_height - imgL_o.size[1]
-       # left_pad  = args.input_img_width - imgL_o.shape[1] #==0
        disp_save = pred_disp[top_pad:,:]
 
        disp_err = np.abs(tgt_disp - disp_save)
        epe = (disp_err[mask]).mean()
        EPE += epe
 
-       # f.write("[{}/{}] {}: \t EPE: {:.3f} \t time: {:.3f}\t\n ".format(inx,len(test_left_img), img_name, epe, cost_time))
        print("{}: [{}/{}] {}: \t EPE: {:.3f} \t time: {:.3f} ".format(cnt, inx,len(test_left_img), img_name, epe, cost_time))
 
        if args.save_res:
@@ -278,13 +255,8 @@ def main():
            plt.margins(0, 0)
            plt.savefig(pred_disp_viz_save_name, bbox_inches='tight', pad_inches=0)
 
-           # break
-       # if inx >= num_test-1:
-       #         break
 
     print("avg_EPE: {:.3f}, avg_time: {:.3f}, val_num:{}" .format(EPE/ (cnt), avg_time/cnt, cnt))
-    # f.write("avg_EPE: {:.3f}, avg_time: {:.3f}, val_num:{}\t\n" .format(EPE/ (cnt), avg_time/cnt, cnt))
-    # f.close()
 
 def val2uint8(mat,maxVal, minVal=0):
     maxVal_mat = np.ones(mat.shape) * maxVal

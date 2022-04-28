@@ -53,7 +53,7 @@ parser.add_argument('--seed', type=int, default=1, metavar='S',
                     help='random seed (default: 1)')
 
 
-parser.add_argument('--m_w', type=float, default=15,
+parser.add_argument('--m_w', type=float, default=60,
                     help='slic position weight')
 parser.add_argument('--sp_w', type=float, default=0.1,
                     help='spixel loss weight')

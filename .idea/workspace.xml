@@ -3,15 +3,24 @@
   <component name="ChangeListManager">
     <list default="true" id="b597b14a-4cb1-41a5-873e-dc904fc87a8f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/finetune_mb_HRVS_sp16.py" beforeDir="false" afterPath="$PROJECT_DIR$/finetune_mb_HRVS_sp16.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataloader/listfiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataloader/listfiles.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/Readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/finetune_mb_HRVS_sp16.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/finetune_mb_HRVS_sp16_fixed.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/finetune_mb_sp16.py" beforeDir="false" afterPath="$PROJECT_DIR$/finetune_mb_sp16.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/infer_HRVS_sp16.py" beforeDir="false" afterPath="$PROJECT_DIR$/infer_HRVS_sp16.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_new.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_new_fixed.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_new_fixed.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/SPP_stackhourglass_preTrain_upDisp_192_oldNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/SPP_stackhourglass_preTrain_upDisp_192_oldNet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/submission_mb.py" beforeDir="false" afterPath="$PROJECT_DIR$/submission_mb.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/infer_HRVS_sp16.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infer_HRVS_sp16_lrs02.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infer_flyingThings.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/infer_flyingThings_lrs02.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_new.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_new_fixed.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preTrain_spixel_old/4.pth.tar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preTrain_spixel_old/smallNet_16.tar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/submission_mb.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/submission_mb_lrs02.py" beforeDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,12 +36,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1PzCUCL6h0s9MpMHIEjTpVUm63a" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Dropbox/stereo_matching/CVPR20_cleanUp" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="PyConsoleConfigurable.Python Console" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -64,18 +82,6 @@
       <recent name="$PROJECT_DIR$/dataloader" />
       <recent name="$PROJECT_DIR$/utils" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Python.compare_res_2">
     <configuration name="SPP_stackhourglass_preTrain_upDisp" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -198,6 +204,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -270,9 +277,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -282,18 +287,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/infer_HRVS_sp16.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/infer_HRVS_sp16.py</url>
-          <line>34</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/../../middlebury/res/compare_res_2.py</url>
           <line>99</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/models/__init__.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

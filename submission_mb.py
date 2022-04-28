@@ -20,7 +20,7 @@ from utils import preprocess
 from models import *
 import shutil
 import cv2
-
+from PIL import Image
 from utils.save_res import save_pfm
 from utils.preprocess import get_transform
 from skimage.transform import rescale, resize
@@ -30,7 +30,7 @@ cudnn.benchmark = False
 parser = argparse.ArgumentParser(description='PSMNet')
 parser.add_argument('--KITTI', default='2015',
                     help='KITTI version')
-parser.add_argument('--datapath', default= '/home/fuy34/stereo_data/middlebury/mb-ex/trainingF/', #'/home/fuy34/Dropbox/middlebury/final_submission/MiddEval3/trainingF', #
+parser.add_argument('--datapath', default='/home/fuy34/stereo_data/middlebury/mb-ex/trainingF/',
                     help='select model')
 parser.add_argument('--loadmodel', default=None,
                     help='loading model')
@@ -42,10 +42,10 @@ parser.add_argument('--no-cuda', action='store_true', default=False,
                     help='enables CUDA training')
 parser.add_argument('--seed', type=int, default=1, metavar='S',
                     help='random seed (default: 1)')
-parser.add_argument('--savepath', metavar='DIR', default= '/home/fuy34/Dropbox/joint_sp16_new',#'/home/fuy34/Dropbox/joint_sp16_final_trainE25' ,
+parser.add_argument('--savepath', metavar='DIR', default= '/home/fuy34/Dropbox/Fix_ori_sp4pre' ,
                     help='save path')
 
-parser.add_argument('--sz_list', type=float, default= [16], #, 8, 16
+parser.add_argument('--sz_list', type=float, default= [4], #, 8, 16
                     help='spixel loss weight')
 parser.add_argument('--train_img_height', '-t_imgH', default=256*4, #384,
                     type=int,  help='img height')
@@ -57,9 +57,9 @@ parser.add_argument('--val_img_height', '-v_imgH', default=2048, #512 368
 parser.add_argument('--val_img_width', '-v_imgW', default=3072,   #960 1232
                     type=int, help='img width must be 16*n')
 
-parser.add_argument('--batchsize', type=int, default=1, #https://github.com/JiaRenChang/PSMNet/issues/73
+parser.add_argument('--batchsize', type=int, default=4, #https://github.com/JiaRenChang/PSMNet/issues/73
                     help='number of epochs to train(default:12 or 8)')
-parser.add_argument('--test_batchsize', type=int, default=1, #https://github.com/JiaRenChang/PSMNet/issues/73
+parser.add_argument('--test_batchsize', type=int, default=4, #https://github.com/JiaRenChang/PSMNet/issues/73
                     help='number of epochs to train(default:12 or 8)')
 
 args = parser.parse_args()
@@ -73,11 +73,9 @@ if args.cuda:
 # dataloader
 from dataloader import listfiles as DA
 _, _, _, test_left_img, test_right_img, _ = DA.dataloader(args.datapath, typ='train')
-# test_left_img, test_right_img, _, _, _, _, = DA.dataloader(args.datapath, typ='trainval')
-# print(test_left_img)
+
 # construct model
-model = prePSMNet_small(args, None, b_finetune= True)
-# model = spPSMNet(args)
+model = prePSMNet_small(args, None, b_finetune= False)
 model = nn.DataParallel(model, device_ids=[0])
 model.cuda()
 
@@ -116,50 +114,16 @@ def main():
         if not os.path.isdir(args.savepath):
             os.makedirs(args.savepath)
 
-        imgL_o = (skimage.io.imread(test_left_img[inx]).astype('float32'))[:,:,:3]
-        imgR_o = (skimage.io.imread(test_right_img[inx]).astype('float32'))[:,:,:3]
-        # convert to quater resolution
-        h, w, _ = imgL_o.shape
-        # imgL_o = resize(imgL_o, (h // 4, w // 4), order=0)
-        # imgR_o = resize(imgR_o, (h // 4, w // 4), order=0)
+        imgL_o = Image.open(test_left_img[inx]).convert('RGB')
+        imgR_o = Image.open(test_right_img[inx]).convert('RGB')
+
+        w, h = imgL_o.size
         imgL = processed(imgL_o).numpy()
         imgR = processed(imgR_o).numpy()
         imgL = np.reshape(imgL, [1, 3, imgL.shape[1], imgL.shape[2]])
         imgR = np.reshape(imgR, [1, 3, imgR.shape[1], imgR.shape[2]])
 
         print(w, h, imgL.shape)
-
-        # imgsize = imgL_o.shape[:2]
-        #
-        # if args.max_disp>0:
-        #     max_disp = int(args.max_disp)
-        # else:
-        #     with open(test_left_img[inx].replace('im0.png','calib.txt')) as f:
-        #         lines = f.readlines()
-        #         max_disp = int(int(lines[6].split('=')[-1]))
-        #         # max_disp = min(384, max_disp) #add me
-        #
-        # ## change max disp
-        # tmpdisp = int(max_disp*args.testres//64*64)
-        # if (max_disp*args.testres/64*64) > tmpdisp:
-        #     model.module.maxdisp = tmpdisp + 64
-        # else:
-        #     model.module.maxdisp = tmpdisp
-        # if model.module.maxdisp ==64: model.module.maxdisp=128
-        # model.module.disp_reg8 =  disparityregression(model.module.maxdisp,16).cuda()
-        # model.module.disp_reg16 = disparityregression(model.module.maxdisp,16).cuda()
-        # model.module.disp_reg32 = disparityregression(model.module.maxdisp,32).cuda()
-        # model.module.disp_reg64 = disparityregression(model.module.maxdisp,64).cuda()
-        # print(model.module.maxdisp)
-        
-        # resize
-        # imgL_o = cv2.resize(imgL_o,None,fx=args.testres,fy=args.testres,interpolation=cv2.INTER_CUBIC)
-        # imgR_o = cv2.resize(imgR_o,None,fx=args.testres,fy=args.testres,interpolation=cv2.INTER_CUBIC)
-        # imgL = processed(imgL_o).numpy()
-        # imgR = processed(imgR_o).numpy()
-        #
-        # imgL = np.reshape(imgL,[1,3,imgL.shape[1],imgL.shape[2]])
-        # imgR = np.reshape(imgR,[1,3,imgR.shape[1],imgR.shape[2]])
 
         ##fast pad
         max_h = int(imgL.shape[2] // 64 * 64)
@@ -178,22 +142,23 @@ def main():
         with torch.no_grad():
             torch.cuda.synchronize()
             start_time = time.time()
-            pred_disp, _, _, _ = model(imgL, imgR)
+            pred_disp, _, _, _, _ = model(imgL, imgR)
             torch.cuda.synchronize()
             ttime = (time.time() - start_time); print('time = %.2f' % (ttime*1000) )
         pred_disp = torch.squeeze(pred_disp).data.cpu().numpy()
 
-        top_pad   = max_h-imgL_o.shape[0]
-        left_pad  = max_w-imgL_o.shape[1]
+        top_pad   = max_h- h
+        left_pad  = max_w- w
         pred_disp = pred_disp[top_pad:,:pred_disp.shape[1]-left_pad]
-
+        print(h , w , imgL.shape, pred_disp.shape)
         # save predictions
         idxname = test_left_img[inx].split('/')[-2]
         if not os.path.exists('%s/%s'%(args.savepath,idxname)):
             os.makedirs('%s/%s'%(args.savepath,idxname))
 
-        idxname = '%s/disp0SPPSMNet_15'%(idxname)
+        idxname = '%s/disp0FixOriSP4Pre'%(idxname)
         print('saved to %s/%s' % (args.savepath, idxname))
+
         # resize to highres
         # pred_disp = cv2.resize(pred_disp/args.testres,(imgsize[1],imgsize[0]),interpolation=cv2.INTER_LINEAR)
 
@@ -205,10 +170,10 @@ def main():
         # np.save('%s/%s-ent.npy'% (args.outdir, idxname.split('/')[0]),(entropy))
         # cv2.imwrite('%s/%s-disp.png'% (args.outdir, idxname.split('/')[0]),pred_disp/pred_disp[~invalid].max()*255)
         # cv2.imwrite('%s/%s-ent.png'% (args.outdir, idxname.split('/')[0]),entropy/entropy.max()*255)
-
+        # cv2.imwrite('%s/%s-disp.png' % (args.savepath, idxname.split('/')[0]), (100 * pred_disp).astype(np.uint16))
         with open('%s/%s.pfm'% (args.savepath, idxname),'w') as f:
             save_pfm(f,pred_disp[::-1,:])
-        with open('%s/%s/timeSPPSMNet_15.txt'%(args.savepath,idxname.split('/')[0]),'w') as f:
+        with open('%s/%s/timeFixOriSP4Pre.txt'%(args.savepath,idxname.split('/')[0]),'w') as f:
              f.write(str(ttime))
             
         torch.cuda.empty_cache()

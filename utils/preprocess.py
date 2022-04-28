@@ -23,8 +23,6 @@ def scale_crop(input_size, scale_size=None, normalize=__imagenet_stats):
         transforms.ToTensor(),
         transforms.Normalize(**normalize),
     ]
-    #if scale_size != input_size:
-    #t_list = [transforms.Scale((960,540))] + t_list
 
     return transforms.Compose(t_list)
 
@@ -60,8 +58,6 @@ def inception_preproccess(input_size, normalize=__imagenet_stats):
     ])
 def inception_color_preproccess(input_size, normalize=__imagenet_stats):
     return transforms.Compose([
-        #transforms.RandomSizedCrop(input_size),
-        #transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         ColorJitter(
             brightness=0.4,

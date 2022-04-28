@@ -68,7 +68,7 @@ class PSMNet(nn.Module):
 
         self.mean_values = torch.Tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
         self.std = torch.Tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
-        # self.divisor = 1
+
 
         self.rgb2Lab = rgb2Lab_torch
         self.build_labxy_feat = build_LABXY_feat

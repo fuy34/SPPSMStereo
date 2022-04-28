@@ -16,29 +16,19 @@ import math
 from dataloader import listflowfile as lt
 from dataloader import SecenFlowLoader as DA
 
+# from dataloader import KITTIloader2015 as lt
+# from dataloader import KITTILoader as DA
+from glob import glob
 from models import *
 from utils import *
 import shutil
 from glob import glob
-
-'''
---------------------------------------------------
-This is the code for the spixel up/downsampling PSMNet (SPPSMNet)
-We train the network from the scratch on sceneflow and later fine-tune on different dataset
-The spixel size is fixed to 4 on sceneflow, 
-the image is downsampled first and fed to PSMNet and then upsampled the cost volume before the disp. regression
-
-Author: Fengting Yang
-Final modification: Nov. 2019 
-
 
 # note
 # difference from the previous joint training
 # 1. spixel is training from the scratch instead of pre-trained spixel
 # 2. the disparity is upsampled instead of cost volume, be same as sp16 case
 # 3. the learning schedule become lr: 1e-3 * 10==> 5e-4 * 3 ==> 1e-4 * 3
-'''
-
 parser = argparse.ArgumentParser(description='PSMNet')
 parser.add_argument('--maxdisp', type=int ,default=192,
                     help='maxium disparity')
@@ -56,7 +46,7 @@ parser.add_argument('--loadmodel', default= None,
                     help='load model')
 parser.add_argument('--preTrain_spixel', default= './preTrain_spixel_old/',
                     help='preTrain model')
-parser.add_argument('--savemodel', default='/data/Fengting/stereo_training/SPPSMNet/useful_sceneflow/', #usefull_res_sceneflow/
+parser.add_argument('--savemodel', default='/home/fuy34/stereo_training/SPPPSM/usefull_res_sceneflow/', #usefull_res_sceneflow/
                     help='save model')
 parser.add_argument('--logname', default='SPPPSM_tst',
                     help='log name')
@@ -103,7 +93,8 @@ args = parser.parse_args()
 args.cuda = not args.no_cuda and torch.cuda.is_available()
 args.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-
+# set gpu id used
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
 def _init_fn(worker_id):
     np.random.seed()
@@ -132,20 +123,25 @@ else:
              DA.myImageFloder(test_left_img[:val_epoch_size],test_right_img[:val_epoch_size],test_left_disp[:val_epoch_size], False),
              batch_size= args.test_batchsize, shuffle= False, num_workers= 8, drop_last=True, worker_init_fn=_init_fn)
 
-spixel_ckpts = args.preTrain_spixel+'/4.pth.tar'
-model = prePSMNet(args, spixel_ckpts, b_pretrain=False)
+if not os.path.isdir(args.preTrain_spixel):
+    print("Please offer the preTrain spixel module!")
+    exit(1)
 
+spixel_ckpts = args.preTrain_spixel+'/4.pth.tar' #glob(args.preTrain_spixel+'/*.tar')
+
+model = prePSMNet(args, spixel_ckpts, b_pretrain=True)
 if args.cuda:
     torch.backends.cudnn.benchmark = True
     model = nn.DataParallel(model)
     model.cuda()
+
 
 train_params =  [param for name, param in model.named_parameters() if param.requires_grad and not 'spixel' in name]
 spixel_params = [param for name, param in model.named_parameters() if param.requires_grad and 'spixel' in name ] #and 'spixel4' not in name
 
 optimizer = optim.Adam( [
                         {'params': train_params},
-                        {'params': spixel_params, 'weight_decay': 4e-4} ], lr=0.001, betas=(0.9, 0.999)) #{'params': [s1, s2]},
+                        ], lr=0.001, betas=(0.9, 0.999)) #{'params': [s1, s2]}, {'params': spixel_params, 'weight_decay': 4e-4}
 
 
 if args.loadmodel is not None:
@@ -180,29 +176,15 @@ def train(imgL,imgR, disp_L):
 
     optimizer.zero_grad()
 
-    outputs = model(imgL, imgR, disp_L, b_joint=True)
-
+    outputs = model(imgL, imgR, disp_L, b_joint=False)
+    # size_list = args.sz_list  # [16,8,16,32,64]
     output1 = outputs[0][0]  # torch.squeeze(outputs[0], 1)
     output2 = outputs[1][0]  # torch.squeeze(outputs[1], 1)
     output3 = outputs[2][0]  # torch.squeeze(outputs[2], 1)
 
-    disp_loss = (0.5 * output1.sum() + 0.7 * output2.sum() + output3.sum())/ args.batchsize
+    disp_loss = (0.5 * output1.sum() + 0.7 * output2.sum() + output3.sum()) / args.batchsize
 
-    loss_col = 0
-    loss_pos = 0
-    sp_errs = outputs[3]
-    # loss_map_R = outputs[4]
-
-    for i in range(len(args.sz_list)):  # todo 5
-        a = sp_errs[0].sum() / args.batchsize  # color loss
-        b = args.m_w / (args.sz_list[i]) * sp_errs[1].sum() / args.batchsize #math.sqrt, in our paper we use sqrt, but actually we should not
-        loss_col += a
-        loss_pos += b
-        print("level {}, loss_col: {} loss_pos: {}".format(i, args.sp_w * a, args.sp_w * b))
-
-    spixle_loss = args.sp_w * (loss_col + loss_pos)
-
-    loss = disp_loss + spixle_loss
+    loss = disp_loss #+ spixle_loss
 
     viz = {}
 
@@ -210,20 +192,19 @@ def train(imgL,imgR, disp_L):
     viz['sp_assign_L'] = [outputs[5]]
     viz["spixel_idx_list"] = outputs[7]
 
-    # for debug only
-    # viz['sp_assign_R'] = outputs[6]
     # viz['output1'] = outputs[0][1].cpu().numpy() #output1.detach().cpu().numpy()
     # viz['output2'] = outputs[1][1].cpu().numpy() #output2.detach().cpu().numpy()
+    # viz['sp_assign_R'] = outputs[6]
     # viz["spImg_l"] = outputs[8][0].numpy() #.detach().cpu().numpy()
     # viz["spImg_r"] = outputs[8][1].numpy() #.detach().cpu().numpy()
     # viz["disturb_img"] = outputs[-1].detach().cpu().numpy()
 
-    viz['mask'] = outputs[-1].cpu().numpy()
+    viz['mask'] = outputs[-1].cpu().numpy()  # mask.type(torch.float).detach().cpu().numpy()
 
     loss.backward()
     optimizer.step()
 
-    return loss.item(), disp_loss.item(), args.sp_w * loss_col.item(), args.sp_w * loss_pos.item(), viz
+    return loss.item(), disp_loss.item(), 0,0, viz
 
 def test(imgL,imgR,disp_true):
         model.eval()
@@ -242,14 +223,12 @@ def test(imgL,imgR,disp_true):
         # print(output.shape)
 
         viz = {}
-
+        # torch.cuda.synchronize()
         viz['final_output'] = output.detach().cpu().numpy()
         viz['mask'] = mask.type(torch.float).detach().cpu().numpy()
         viz['sp_assign_L'] = outputs[1]
-        viz["spixel_idx_list"] = outputs[3]
-
-        # torch.cuda.synchronize()
         # viz['sp_assign_R'] = outputs[2]
+        viz["spixel_idx_list"] = outputs[3]
         # viz["spImg_l"] = outputs[-1][0].detach().cpu().numpy()
         # viz["spImg_r"] = outputs[-1][1].detach().cpu().numpy()
 
@@ -275,21 +254,10 @@ def adjust_learning_rate(optimizer, epoch):
         param_group['lr'] = lr
     return lr
 
-    # if epoch <= 10:
-    #     lr = 1e-3
-    # elif epoch > 13:
-    #     lr = 1e-4
-    # else:
-    #     lr = 5e-4
-    # for param_group in optimizer.param_groups:
-    #     param_group['lr'] = lr
-    # return  lr
-
 def main():
     global best_err, start_epoch, total_iters
-    saveName = args.logname + "_spW{}_mW{}_ep{}_b{}".format( args.sp_w, args.m_w,  args.epochs, args.batchsize)
-    log = Logger(args.savemodel, name= saveName, s_train = 'train')
-    val_log = Logger(args.savemodel, name= saveName , s_train = 'val')
+    log = Logger(args.savemodel, name=args.logname , s_train = 'train')
+    val_log = Logger(args.savemodel, name=args.logname , s_train = 'val')
 
     num_log_img = 4
     print(' total training data: %d; total test data: %d'% (len(TrainImgLoader),len(TestImgLoader)) )
@@ -337,7 +305,7 @@ def main():
 
         if not args.test_only:
             torch.cuda.synchronize()
-            savefilename = args.savemodel + '/' + saveName
+            savefilename = args.savemodel + '/' + args.logname
             b_best = False
             save_ckpt({
                 'start_epoch': epoch + 1,
@@ -366,12 +334,6 @@ def main():
                 print('Epoch [%.2d: %.4d] test loss = %.3f' %(epoch, val_batch_idx, test_loss))
                 total_test_loss += test_loss
 
-            # for the last epoch, evaluate all test data
-            # if (not args.test_only) and val_batch_idx >= val_epoch_size-1 and epoch<args.epochs:
-            #    test_iter = min(len(TestImgLoader), val_epoch_size)
-            #    # print("break {}, {}, {}".format(args.test_only, val_batch_idx, val_epoch_size))
-            #    break
-
         print('total test loss = %.3f' % (total_test_loss /test_iter) )
         if not args.test_only:
             b_best = best_err > total_test_loss / test_iter
@@ -384,7 +346,6 @@ def main():
             torch.cuda.empty_cache()
 
         #----------------------------------------------------------------------------------
-
 
 if __name__ == '__main__':
 

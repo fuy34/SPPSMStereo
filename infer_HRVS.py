@@ -1,8 +1,6 @@
 from __future__ import print_function
 import argparse
 import os
-os.environ['CUDA_VISIBLE_DEVICES']='0'
-
 import random
 import torch
 import torch.nn as nn
@@ -24,16 +22,18 @@ import shutil
 import cv2
 import glob
 from utils import readpfm as rp
-from utils import init_spixel_grid
 
 import matplotlib.pyplot as plt
 
+from utils import init_spixel_grid
 from utils.save_res import *
+from utils.save_res import save_pfm
 from utils.preprocess import get_transform
 from skimage.transform import rescale, resize
 #cudnn.benchmark = True
-
 cudnn.benchmark = False
+
+from PIL import Image
 
 parser = argparse.ArgumentParser(description='PSMNet')
 parser.add_argument('--KITTI', default='2015',
@@ -50,8 +50,10 @@ parser.add_argument('--no-cuda', action='store_true', default=False,
                     help='enables CUDA training')
 parser.add_argument('--seed', type=int, default=1, metavar='S',
                     help='random seed (default: 1)')
-parser.add_argument('--savepath', metavar='DIR', default= '/home/fuy34/Dropbox/disp_res/HRVS_joint_sp16_tst' ,
+parser.add_argument('--savepath', metavar='DIR', default= '/home/fuy34/Dropbox/disp_res/HRVS_fixed_sp16' ,
                     help='save path')
+parser.add_argument('--save_res', action='store_true', default=False,
+                    help='save res')
 
 parser.add_argument('--sz_list', type=float, default= [16], #, 8, 16
                     help='spixel loss weight')
@@ -65,9 +67,9 @@ parser.add_argument('--val_img_height', '-v_imgH', default=2048, #512 368
 parser.add_argument('--val_img_width', '-v_imgW', default=3072,   #960 1232
                     type=int, help='img width must be 16*n')
 
-parser.add_argument('--batchsize', type=int, default=1, #https://github.com/JiaRenChang/PSMNet/issues/73
+parser.add_argument('--batchsize', type=int, default=4, #https://github.com/JiaRenChang/PSMNet/issues/73
                     help='number of epochs to train(default:12 or 8)')
-parser.add_argument('--test_batchsize', type=int, default=1, #https://github.com/JiaRenChang/PSMNet/issues/73
+parser.add_argument('--test_batchsize', type=int, default=4, #https://github.com/JiaRenChang/PSMNet/issues/73
                     help='number of epochs to train(default:12 or 8)')
 
 args = parser.parse_args()
@@ -103,18 +105,16 @@ def main():
     for inx in range(len(test_left_img)):
         # print(test_left_img[inx])
         name = test_left_img[inx].split('/')[-2]
-        # if name not in ['exp-3_w-1_pos-53-76_00350', 'exp-2_w-4_pos-79-14_00400',
-        #                 'exp-1_w-8_pos-66-3_00200', 'exp-3_w-1_pos-31-71_00750',
-        #                 'exp-0_w-11_pos-19-66_00450'] : continue
-        # if name not in ['exp-1_w-8_pos-21-12_00200']: continue #
+        # if name not in ['exp-2_w-4_pos-10-61_00400'] : continue
 
-        if not os.path.isdir(args.savepath):
+        if not os.path.isdir(args.savepath) and args.save_res:
             os.makedirs(args.savepath)
 
-        imgL_o = (skimage.io.imread(test_left_img[inx]).astype('float32'))[:,:,:3]
-        imgR_o = (skimage.io.imread(test_right_img[inx]).astype('float32'))[:,:,:3]
+        imgL_o = Image.open(test_left_img[inx]).convert('RGB')
+        imgR_o = Image.open(test_right_img[inx]).convert('RGB')
+
         # convert to quater resolution
-        h, w, _ = imgL_o.shape
+        w, h = imgL_o.size
         # imgL_o = resize(imgL_o, (h // 4, w // 4), order=0)
         # imgR_o = resize(imgR_o, (h // 4, w // 4), order=0)
         imgL = processed(imgL_o).numpy()
@@ -146,15 +146,18 @@ def main():
             ttime = (time.time() - start_time) #print('time = %.2f' % (ttime*1000) )
         pred_disp = torch.squeeze(pred_disp).data.cpu().numpy()
 
-        top_pad   = max_h-imgL_o.shape[0]
-        left_pad  = max_w-imgL_o.shape[1]
+        top_pad   = max_h- h #imgL_o.shape[0]
+        left_pad  = max_w- w #imgL_o.shape[1]
         pred_disp = pred_disp[top_pad:,:pred_disp.shape[1]-left_pad]
 
 
         # read gt
         gt_disp = rp.readPFM(disp_true[inx])[0]
+
+        if args.save_res:
+            cv2.imwrite(args.savepath + '/{}_gt.png'.format(name), (gt_disp * 100).astype(np.uint16))
+
         gt_disp[gt_disp == np.inf] = 0
-        # cv2.imwrite(args.savepath + '/{}_gt.png'.format(name), (gt_disp * 100).astype(np.uint16))
         gt_disp = np.ascontiguousarray(gt_disp, dtype=np.float32)
 
         mask = (gt_disp != 0)
@@ -162,16 +165,16 @@ def main():
         epe = np.sum(err)/np.sum(mask)
         sum_epe += epe
 
-        if False : #inx < 50:
+
+        # # output
+        if args.save_res:
             top_cut = 640
             if not os.path.isdir(os.path.join(args.savepath, 'img')):
                 os.makedirs(os.path.join(args.savepath, 'img'))
             img_save_path = os.path.join(args.savepath, 'img', name + '.png')
-            # shutil.copy(test_left_img[inx], img_save_path)
             img = cv2.imread(test_left_img[inx])
             print(img.shape)
             cv2.imwrite(img_save_path, img[top_cut:])
-            # cv2.imwrite(args.savepath + '/{}_err.png'.format(name), (val2uint8(err, 20)))
 
             MAX_DISP = 500
             MIN_DISP = 0
@@ -192,7 +195,7 @@ def main():
             if not os.path.isdir(os.path.join(args.savepath, 'pred_disp_viz')):
                 os.makedirs(os.path.join(args.savepath, 'pred_disp_viz'))
             pred_disp_viz_save_name = os.path.join(args.savepath, 'pred_disp_viz',  name + '_pred.png')
-            plt.imshow( (pred_disp[top_cut:]*mask[top_cut:]), vmax=MAX_DISP, vmin=MIN_DISP)  # val2uint8(, MAX_DISP, MIN_DISP)
+            plt.imshow((pred_disp * mask)[top_cut:], vmax=MAX_DISP, vmin=MIN_DISP)  # val2uint8(, MAX_DISP, MIN_DISP)
             plt.axis('off')
             plt.gca().xaxis.set_major_locator(plt.NullLocator())
             plt.gca().yaxis.set_major_locator(plt.NullLocator())
@@ -200,32 +203,32 @@ def main():
             plt.margins(0, 0)
             plt.savefig(pred_disp_viz_save_name, bbox_inches='tight', pad_inches=0)
 
-            #err
+            # err
             if not os.path.isdir(os.path.join(args.savepath, 'disp_err')):
                 os.makedirs(os.path.join(args.savepath, 'disp_err'))
             disp_save_path = os.path.join(args.savepath, 'disp_err',  name + '_err.png')
             skimage.io.imsave(disp_save_path, val2uint8(err[top_cut:], 20))
 
-            # spxiel
+            # spixel
             img_l = torch.FloatTensor(imgL)
             mean_values = torch.tensor([0.485, 0.456, 0.406], dtype=img_l.dtype).view(3, 1, 1).to(img_l.device)
             std = torch.tensor([0.229, 0.224, 0.225], dtype=img_l.dtype).view(3, 1, 1).to(img_l.device)
-            img_l = (torch.FloatTensor(imgL) * std + mean_values).cpu().numpy()
+            img_l = (torch.FloatTensor(imgL) * std + mean_values).clamp(0,1).cpu().numpy()
 
             _, _, h, w = imgL.shape
-
             args.val_img_height ,  args.val_img_width = h, w
             _, spixel_indx, _,_,_ = init_spixel_grid(args, args.sz_list, b_train=False)
             maskL_viz, _ = update_spixl_map(spixel_indx, [maskL])
             spixel_viz_L, _ = get_spixel_image(args, img_l[0].transpose(1, 2, 0), maskL_viz[0].squeeze())
-           # print(spixel_viz_L.shape, img_l.shape, top_pad, left_pad)
+            print(spixel_viz_L.shape, img_l.shape, top_pad, left_pad)
             spixel_viz_L = spixel_viz_L[:, top_pad:, :-left_pad ]
-           # print(spixel_viz_L.shape)
+            print(spixel_viz_L.shape)
 
             if not os.path.isdir(args.savepath + '/spixel'):
                 os.makedirs(args.savepath + '/spixel')
             dump_path = args.savepath + '/spixel/' + name + '_spixel.png'
             skimage.io.imsave(dump_path, (spixel_viz_L.transpose(1, 2, 0))[top_cut:])
+
 
         print('{}: {}'.format(name, epe))
 

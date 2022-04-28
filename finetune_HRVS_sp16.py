@@ -56,7 +56,7 @@ parser.add_argument('--seed', type=int, default=1, metavar='S',
                     help='random seed (default: 1)')
 
 
-parser.add_argument('--m_w', type=float, default=10,
+parser.add_argument('--m_w', type=float, default=30,
                     help='slic position weight')
 parser.add_argument('--sp_w', type=float, default=0.1,
                     help='spixel loss weight')
@@ -78,9 +78,9 @@ parser.add_argument('--epoch_size', default=1e5,   #960
                     type=int, help='img width must be 16*n')
 
 parser.add_argument('--continue_train', action='store_true', default=False,
-                    help='enables CUDA training')
+                    help='continue training')
 parser.add_argument('--recFre', type=int, default=4,
-                    help='recording checkpoint frequence (epoch)')
+                    help='recording training status frequence (epoch)')
 parser.add_argument('--saveFre', type=int, default=10,
                     help='recording checkpoint frequence (epoch)')
 args = parser.parse_args()
@@ -134,7 +134,7 @@ optimizer = optim.Adam( [
                         ], lr=0.001, betas=(0.9, 0.999)) #{'params': [s1, s2]}, {'params': spixel_params, 'weight_decay': 4e-4}
 
 # optimizer = optim.Adam(model.parameters(), lr=0.1, betas=(0.9, 0.999))
-spixel_ckpts = args.preTrain_spixel+'/smallNet_16.tar' #glob(args.preTrain_spixel+'/*.tar')
+spixel_ckpts = args.preTrain_spixel+'/smallNet_16.tar'
 
 if args.loadmodel is not None:
     if args.continue_train:
@@ -151,7 +151,6 @@ if args.loadmodel is not None:
         pretrained_dict = {k: v for k, v in state_dict['state_dict'].items() if 'spixel4' not in k}
         model_dict.update(pretrained_dict)
         model.load_state_dict(model_dict)
-        # model.load_state_dict(state_dict['state_dict'])
         model.module.spixel4.load_state_dict(torch.load(spixel_ckpts)['state_dict'])
 
         start_epoch = 1
@@ -204,17 +203,10 @@ def train(imgL,imgR,disp_L):
 
 
         viz = {}
-        # viz['output1'] = output1.detach().cpu().numpy()
-        # viz['output2'] = output2.detach().cpu().numpy()
         viz['final_output'] = outputs[2][1].detach().cpu().numpy()
         viz['sp_assign_L'] = [outputs[5]]
-        # viz['sp_assign_R'] = outputs[6]
         viz["spixel_idx_list"] = outputs[7]
-        # viz["spImg_l"] = outputs[-1][0].detach().cpu()
-        # viz["spImg_r"] = outputs[-1][1].detach().cpu()
-        # viz["disturb_img"] = outputs[-1].detach().cpu().numpy()
         viz['mask'] = outputs[-1].cpu().numpy()
-        # viz['mask'] = mask.type(torch.float).detach().cpu().numpy()
 
         loss.backward()
         optimizer.step()
@@ -228,14 +220,12 @@ def test(imgL,imgR,disp_true):
         if args.cuda:
             imgL, imgR, disp_true = imgL.cuda(), imgR.cuda(), disp_true.cuda()
 
-        # print(imgL.shape, disp_true.shape)
         with torch.no_grad():
             outputs = model(imgL,imgR)
             mask = (disp_true > 0)
 
 
-        output3 = torch.squeeze(outputs[0], 1) #.data.cpu()
-        # print(output3.shape, disp_true.shape)
+        output3 = torch.squeeze(outputs[0], 1) #
         pred_disp = output3#.data.cpu()
 
         viz = {}
@@ -244,8 +234,6 @@ def test(imgL,imgR,disp_true):
         viz['sp_assign_L'] = [outputs[1]]
         # viz['sp_assign_R'] = outputs[2]
         viz["spixel_idx_list"] = outputs[3]
-        # viz["spImg_l"] = outputs[-1][0].detach().cpu()
-        # viz["spImg_r"] = outputs[-1][1].detach().cpu()
 
         #computing 3-px error#
         if len(disp_true[mask]) == 0:

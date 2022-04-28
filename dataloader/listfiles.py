@@ -11,13 +11,13 @@ import random
 def dataloader(filepath, typ = 'train', b_HRonly=False):
   total_list = [i.split('/')[-1] for i in glob.glob('%s/*'%filepath) if os.path.isdir(i)]
 
-  train_list = ['Adirondack', 'Jadeplant', 'Motorcycle', 'Piano', 'Pipes',
-                 'Playroom', 'Playtable', 'Recycle', 'Shelves', 'Vintage']
-
   # train_list = ['Adirondack', 'Jadeplant', 'Motorcycle', 'Piano', 'Pipes',
-  #               'Playroom', 'Playtable', 'Recycle', 'Shelves', 'Vintage',
-  #               'Cable', 'Bicycle1','Backpack', 'Classroom1','Couch',
-  #               'Flowers','Mask','Sword1','Shopvac', 'Sticks', 'Umbrella','Storage']
+  #                'Playroom', 'Playtable', 'Recycle', 'Shelves', 'Vintage']
+
+  train_list = ['Adirondack', 'Jadeplant', 'Motorcycle', 'Piano', 'Pipes',
+                'Playroom', 'Playtable', 'Recycle', 'Shelves', 'Vintage',
+                'Cable', 'Bicycle1','Backpack', 'Classroom1','Couch',
+                'Flowers','Mask','Sword1','Shopvac', 'Sticks', 'Umbrella','Storage']
 
   if typ == 'train':
     img_list = [elem for elem in total_list if elem.split('-')[0] in train_list]
